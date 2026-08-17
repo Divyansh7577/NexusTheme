@@ -1,0 +1,713 @@
+/*
+ * NexusTheme
+ * A safe, additive Pterodactyl skin. It is intentionally scoped so panel
+ * upgrades do not require replacing Pterodactyl's core layout.
+ */
+
+:root {
+    --nexus-bg: #0f172a;
+    --nexus-bg-deep: #080d1b;
+    --nexus-surface: rgba(15, 23, 42, 0.72);
+    --nexus-surface-raised: rgba(23, 34, 59, 0.78);
+    --nexus-border: rgba(148, 163, 184, 0.16);
+    --nexus-border-bright: rgba(6, 182, 212, 0.48);
+    --nexus-cyan: #06b6d4;
+    --nexus-cyan-soft: #67e8f9;
+    --nexus-purple: #8b5cf6;
+    --nexus-purple-soft: #c4b5fd;
+    --nexus-text: #e2e8f0;
+    --nexus-text-muted: #94a3b8;
+    --nexus-success: #34d399;
+    --nexus-warning: #fbbf24;
+    --nexus-danger: #fb7185;
+    --nexus-radius: 16px;
+    --nexus-shadow: 0 24px 70px rgba(2, 6, 23, 0.38);
+}
+
+body {
+    background:
+        radial-gradient(circle at 10% 0%, rgba(6, 182, 212, 0.11), transparent 31rem),
+        radial-gradient(circle at 96% 12%, rgba(139, 92, 246, 0.13), transparent 32rem),
+        var(--nexus-bg) !important;
+    color: var(--nexus-text) !important;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body::before {
+    background-image: linear-gradient(rgba(148, 163, 184, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+}
+
+a {
+    color: var(--nexus-cyan-soft);
+    transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 14px rgba(6, 182, 212, 0.65);
+}
+
+.sidebar,
+.main-sidebar {
+    background: linear-gradient(180deg, rgba(8, 13, 27, 0.97), rgba(15, 23, 42, 0.96)) !important;
+    border-right: 1px solid rgba(6, 182, 212, 0.22);
+    box-shadow: 12px 0 42px rgba(2, 6, 23, 0.24), inset -1px 0 rgba(139, 92, 246, 0.08);
+}
+
+.sidebar-menu > li > a {
+    border-left: 2px solid transparent;
+    color: var(--nexus-text-muted) !important;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.sidebar-menu > li:hover > a,
+.sidebar-menu > li.active > a {
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), transparent) !important;
+    border-left-color: var(--nexus-cyan);
+    color: var(--nexus-cyan-soft) !important;
+    text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
+    transform: translateX(2px);
+}
+
+.main-header .navbar {
+    background: rgba(15, 23, 42, 0.76) !important;
+    border-bottom: 1px solid var(--nexus-border);
+    backdrop-filter: blur(18px);
+}
+
+.main-header .logo {
+    background: rgba(8, 13, 27, 0.92) !important;
+    color: var(--nexus-cyan-soft) !important;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 18px rgba(6, 182, 212, 0.85);
+}
+
+.box,
+.panel,
+.card {
+    background: var(--nexus-surface) !important;
+    border: 1px solid var(--nexus-border) !important;
+    border-radius: var(--nexus-radius) !important;
+    box-shadow: var(--nexus-shadow), inset 0 1px rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(18px);
+}
+
+.box-header,
+.panel-heading,
+.card-header {
+    border-bottom: 1px solid var(--nexus-border) !important;
+    color: var(--nexus-cyan-soft) !important;
+}
+
+.btn-primary,
+.nexus-button--primary {
+    background: linear-gradient(135deg, var(--nexus-cyan), #0891b2) !important;
+    border: 1px solid rgba(103, 232, 249, 0.65) !important;
+    box-shadow: 0 0 22px rgba(6, 182, 212, 0.25);
+    color: #042f3a !important;
+    font-weight: 750;
+}
+
+.btn-primary:hover,
+.nexus-button--primary:hover {
+    background: linear-gradient(135deg, #22d3ee, var(--nexus-cyan)) !important;
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.48);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: var(--nexus-danger) !important;
+    border-color: var(--nexus-danger) !important;
+}
+
+.btn-success {
+    background: var(--nexus-success) !important;
+    color: #052e22 !important;
+}
+
+.form-control,
+input,
+select,
+textarea {
+    background: rgba(8, 13, 27, 0.72) !important;
+    border: 1px solid var(--nexus-border) !important;
+    border-radius: 10px;
+    color: var(--nexus-text) !important;
+}
+
+.form-control:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--nexus-cyan) !important;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.13), 0 0 20px rgba(6, 182, 212, 0.18) !important;
+    outline: none;
+}
+
+.table > thead > tr > th {
+    border-bottom: 1px solid var(--nexus-border-bright) !important;
+    color: var(--nexus-cyan-soft) !important;
+}
+
+.table > tbody > tr > td {
+    border-top: 1px solid var(--nexus-border) !important;
+}
+
+.server-status-indicator.online,
+.label-success {
+    background: var(--nexus-success) !important;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.55);
+    color: #052e22 !important;
+}
+
+.server-status-indicator.offline,
+.label-danger {
+    background: var(--nexus-danger) !important;
+    box-shadow: 0 0 12px rgba(251, 113, 133, 0.48);
+}
+
+.main-footer {
+    background: rgba(8, 13, 27, 0.72) !important;
+    border-top: 1px solid var(--nexus-border) !important;
+    color: var(--nexus-text-muted) !important;
+}
+
+/* Nexus Tools */
+.nexus-theme-root {
+    color: var(--nexus-text);
+    margin: 0 auto;
+    max-width: 1480px;
+    padding: 28px 22px 112px;
+}
+
+.nexus-hero {
+    align-items: flex-end;
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.nexus-eyebrow {
+    color: var(--nexus-cyan-soft);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    margin: 0 0 9px;
+    text-transform: uppercase;
+}
+
+.nexus-title {
+    background: linear-gradient(110deg, #f8fafc 12%, var(--nexus-cyan-soft) 55%, var(--nexus-purple-soft));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(29px, 4vw, 48px);
+    letter-spacing: -0.045em;
+    line-height: 1;
+    margin: 0;
+}
+
+.nexus-subtitle {
+    color: var(--nexus-text-muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 12px 0 0;
+    max-width: 640px;
+}
+
+.nexus-live-status {
+    align-items: center;
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.24);
+    border-radius: 999px;
+    color: #a7f3d0;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 8px;
+    padding: 9px 13px;
+    white-space: nowrap;
+}
+
+.nexus-live-status::before {
+    background: var(--nexus-success);
+    border-radius: 999px;
+    box-shadow: 0 0 12px var(--nexus-success);
+    content: "";
+    height: 7px;
+    width: 7px;
+}
+
+.nexus-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.nexus-tool-card {
+    background: linear-gradient(145deg, rgba(23, 34, 59, 0.82), rgba(15, 23, 42, 0.65));
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--nexus-radius);
+    box-shadow: var(--nexus-shadow), inset 0 1px rgba(255, 255, 255, 0.04);
+    min-width: 0;
+    padding: 21px;
+    position: relative;
+}
+
+.nexus-tool-card::after {
+    background: linear-gradient(90deg, var(--nexus-cyan), var(--nexus-purple));
+    border-radius: 4px;
+    content: "";
+    height: 2px;
+    left: 21px;
+    opacity: 0.72;
+    position: absolute;
+    right: 21px;
+    top: 0;
+}
+
+.nexus-tool-card--plugins {
+    grid-column: span 7;
+}
+
+.nexus-tool-card--versions {
+    grid-column: span 5;
+}
+
+.nexus-tool-card--geyser {
+    grid-column: span 5;
+}
+
+.nexus-tool-card--activity {
+    grid-column: span 7;
+}
+
+.nexus-card-heading {
+    align-items: flex-start;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.nexus-card-heading h2 {
+    color: #f8fafc;
+    font-size: 16px;
+    letter-spacing: -0.015em;
+    margin: 0;
+}
+
+.nexus-card-heading p {
+    color: var(--nexus-text-muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 5px 0 0;
+}
+
+.nexus-card-icon {
+    align-items: center;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.26);
+    border-radius: 12px;
+    color: var(--nexus-cyan-soft);
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 16px;
+    height: 38px;
+    justify-content: center;
+    width: 38px;
+}
+
+.nexus-field-row {
+    align-items: end;
+    display: flex;
+    gap: 10px;
+}
+
+.nexus-field {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.nexus-field label {
+    color: var(--nexus-text-muted);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.nexus-field input,
+.nexus-field select {
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 0 12px;
+    width: 100%;
+}
+
+.nexus-button {
+    align-items: center;
+    border: 1px solid var(--nexus-border);
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 750;
+    gap: 7px;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 14px;
+    transition: box-shadow 180ms ease, transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    white-space: nowrap;
+}
+
+.nexus-button--secondary {
+    background: rgba(148, 163, 184, 0.08);
+    color: var(--nexus-text);
+}
+
+.nexus-button--secondary:hover {
+    background: rgba(6, 182, 212, 0.12);
+    border-color: var(--nexus-border-bright);
+    transform: translateY(-1px);
+}
+
+.nexus-button--purple {
+    background: linear-gradient(135deg, var(--nexus-purple), #6d28d9);
+    border-color: rgba(196, 181, 253, 0.55);
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.22);
+    color: #f5f3ff;
+}
+
+.nexus-button--purple:hover {
+    box-shadow: 0 0 32px rgba(139, 92, 246, 0.46);
+    transform: translateY(-1px);
+}
+
+.nexus-button[disabled] {
+    cursor: wait;
+    opacity: 0.55;
+    transform: none;
+}
+
+.nexus-search-tabs {
+    border-bottom: 1px solid var(--nexus-border);
+    display: flex;
+    gap: 17px;
+    margin-bottom: 16px;
+}
+
+.nexus-search-tabs button {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--nexus-text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 750;
+    padding: 0 0 11px;
+}
+
+.nexus-search-tabs button[aria-selected="true"] {
+    border-bottom-color: var(--nexus-cyan);
+    color: var(--nexus-cyan-soft);
+}
+
+.nexus-results,
+.nexus-activity-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.nexus-result,
+.nexus-activity-item {
+    align-items: center;
+    background: rgba(8, 13, 27, 0.48);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 11px;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 11px 12px;
+}
+
+.nexus-result-title,
+.nexus-activity-title {
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 750;
+    margin: 0;
+}
+
+.nexus-result-meta,
+.nexus-activity-meta {
+    color: var(--nexus-text-muted);
+    font-size: 11px;
+    margin: 3px 0 0;
+}
+
+.nexus-result-copy {
+    min-width: 0;
+}
+
+.nexus-result-copy p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nexus-chip {
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 999px;
+    color: var(--nexus-purple-soft);
+    font-size: 10px;
+    font-weight: 750;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.nexus-platform-grid {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 14px;
+}
+
+.nexus-platform {
+    background: rgba(8, 13, 27, 0.48);
+    border: 1px solid var(--nexus-border);
+    border-radius: 10px;
+    color: var(--nexus-text-muted);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 750;
+    padding: 10px 6px;
+    transition: all 180ms ease;
+}
+
+.nexus-platform:hover,
+.nexus-platform[aria-pressed="true"] {
+    background: rgba(139, 92, 246, 0.14);
+    border-color: rgba(139, 92, 246, 0.55);
+    color: var(--nexus-purple-soft);
+}
+
+.nexus-version-preview,
+.nexus-geyser-release {
+    background: rgba(8, 13, 27, 0.48);
+    border: 1px solid var(--nexus-border);
+    border-radius: 11px;
+    margin-top: 14px;
+    padding: 13px;
+}
+
+.nexus-version-preview strong,
+.nexus-geyser-release strong {
+    color: #f8fafc;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.nexus-version-preview span,
+.nexus-geyser-release span {
+    color: var(--nexus-text-muted);
+    display: block;
+    font-size: 11px;
+}
+
+.nexus-progress {
+    background: rgba(148, 163, 184, 0.12);
+    border-radius: 999px;
+    height: 5px;
+    margin: 12px 0 0;
+    overflow: hidden;
+}
+
+.nexus-progress span {
+    background: linear-gradient(90deg, var(--nexus-cyan), var(--nexus-purple));
+    border-radius: inherit;
+    display: block;
+    height: 100%;
+    transition: width 300ms ease;
+    width: 0;
+}
+
+.nexus-empty {
+    color: var(--nexus-text-muted);
+    font-size: 12px;
+    padding: 16px 0 4px;
+}
+
+.nexus-assistant {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(49, 23, 91, 0.88));
+    border: 1px solid rgba(139, 92, 246, 0.48);
+    border-radius: 18px;
+    bottom: 22px;
+    box-shadow: 0 22px 70px rgba(2, 6, 23, 0.48), 0 0 28px rgba(139, 92, 246, 0.2);
+    max-width: 420px;
+    padding: 14px;
+    position: fixed;
+    right: 22px;
+    width: calc(100vw - 44px);
+    z-index: 50;
+}
+
+.nexus-assistant-heading {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 11px;
+}
+
+.nexus-assistant-heading strong {
+    color: #f5f3ff;
+    font-size: 12px;
+}
+
+.nexus-assistant-heading span {
+    color: var(--nexus-purple-soft);
+    font-size: 10px;
+    margin-left: auto;
+}
+
+.nexus-assistant-form {
+    align-items: center;
+    background: rgba(8, 13, 27, 0.62);
+    border: 1px solid rgba(196, 181, 253, 0.22);
+    border-radius: 11px;
+    display: flex;
+    gap: 8px;
+    padding: 5px;
+}
+
+.nexus-assistant-form input {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    flex: 1;
+    min-height: 34px;
+    min-width: 0;
+    padding: 0 8px;
+}
+
+.nexus-assistant-form button {
+    background: var(--nexus-purple);
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 800;
+    min-height: 34px;
+    padding: 0 11px;
+}
+
+.nexus-assistant-response {
+    color: var(--nexus-purple-soft);
+    font-size: 11px;
+    line-height: 1.45;
+    margin: 9px 3px 0;
+}
+
+.nexus-toast {
+    animation: nexus-toast-in 220ms ease both;
+    background: rgba(8, 13, 27, 0.94);
+    border: 1px solid var(--nexus-border-bright);
+    border-radius: 10px;
+    bottom: 24px;
+    box-shadow: var(--nexus-shadow);
+    color: var(--nexus-text);
+    font-size: 12px;
+    max-width: 350px;
+    padding: 12px 15px;
+    position: fixed;
+    right: 460px;
+    z-index: 70;
+}
+
+.nexus-toast[data-type="error"] {
+    border-color: rgba(251, 113, 133, 0.6);
+}
+
+@keyframes nexus-toast-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1050px) {
+    .nexus-tool-card--plugins,
+    .nexus-tool-card--versions,
+    .nexus-tool-card--geyser,
+    .nexus-tool-card--activity {
+        grid-column: span 12;
+    }
+
+    .nexus-toast {
+        right: 22px;
+    }
+}
+
+@media (max-width: 620px) {
+    .nexus-theme-root {
+        padding: 20px 13px 118px;
+    }
+
+    .nexus-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .nexus-field-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .nexus-button {
+        width: 100%;
+    }
+
+    .nexus-result,
+    .nexus-activity-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nexus-result .nexus-button {
+        width: 100%;
+    }
+
+    .nexus-assistant {
+        bottom: 12px;
+        right: 12px;
+        width: calc(100vw - 24px);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--nexus-bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--nexus-cyan), var(--nexus-purple));
+    border-radius: 99px;
+}
