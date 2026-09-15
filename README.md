@@ -145,6 +145,16 @@ Route::middleware(['api', RequireTwoFactorAuthentication::class])
 The included route file adds client API, throttling, server access, and
 subuser authorization middleware for the server-specific Nexus endpoints.
 
+The route group uses an array for the `where` constraints:
+
+```php
+->where(['server' => '[a-zA-Z0-9-]+'])
+```
+
+Keep this as an array. Passing the regular-expression string directly to a
+route group causes Laravel's `RouteGroup` merger to throw:
+`array_merge(): Argument #2 must be of type array, given string`.
+
 ### 7. Inject the theme assets
 
 Find the panel's main Blade layout. On many versions it is one of:
@@ -214,6 +224,31 @@ owner shown by:
 
 ```bash
 stat -c '%U:%G' "$PANEL_DIR"
+```
+
+The one-click installer also repairs the common Blueprint warning where
+`Pterodactyl\BlueprintFramework\Extensions\modrinthbrowser\PluginController`
+is incorrectly stored at `app/PluginController.php`. It moves that file to:
+
+```text
+app/BlueprintFramework/Extensions/modrinthbrowser/PluginController.php
+```
+
+If you installed manually, repair the same warning with:
+
+```bash
+cd "$PANEL_DIR"
+sudo install -d app/BlueprintFramework/Extensions/modrinthbrowser
+if grep -q 'namespace Pterodactyl\\BlueprintFramework\\Extensions\\modrinthbrowser;' app/PluginController.php; then
+  sudo mv app/PluginController.php \
+    app/BlueprintFramework/Extensions/modrinthbrowser/PluginController.php
+fi
+```
+
+Then rebuild the autoloader:
+
+```bash
+sudo composer dump-autoload --no-interaction
 ```
 
 ### 11. Verify the installation

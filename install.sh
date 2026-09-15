@@ -71,6 +71,7 @@ backup_if_present "resources/views/layouts/master.blade.php"
 backup_if_present "resources/views/templates/wrapper.blade.php"
 backup_if_present "config/app.php"
 backup_if_present "app/Providers/RouteServiceProvider.php"
+backup_if_present "app/PluginController.php"
 backup_if_present "resources/views/server/console.blade.php"
 backup_if_present "resources/views/server/index.blade.php"
 
@@ -168,6 +169,28 @@ patch_file "$PANEL_DIR/config/app.php" provider
 
 log "Registering authenticated NexusTheme routes"
 patch_file "$PANEL_DIR/app/Providers/RouteServiceProvider.php" routes
+
+repair_blueprint_psr4() {
+    local misplaced_controller="$PANEL_DIR/app/PluginController.php"
+    local expected_directory="$PANEL_DIR/app/BlueprintFramework/Extensions/modrinthbrowser"
+    local expected_controller="$expected_directory/PluginController.php"
+
+    if [[ ! -f "$misplaced_controller" ]]; then
+        return 0
+    fi
+
+    if grep -Eq 'namespace[[:space:]]+Pterodactyl\\BlueprintFramework\\Extensions\\modrinthbrowser;' "$misplaced_controller"; then
+        if [[ -e "$expected_controller" ]]; then
+            warn "Blueprint controller already exists at $expected_controller; leaving $misplaced_controller unchanged."
+            return 0
+        fi
+        install -d "$expected_directory"
+        mv "$misplaced_controller" "$expected_controller"
+        log "Moved Blueprint PluginController.php into its PSR-4 directory"
+    fi
+}
+
+repair_blueprint_psr4
 
 find_view() {
     local candidate

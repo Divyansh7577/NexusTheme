@@ -23,7 +23,7 @@ Route::middleware([
 ])
     ->prefix('/api/client/servers/{server}/nexus')
     ->scopeBindings()
-    ->where('server', '[a-zA-Z0-9-]+')
+    ->where(['server' => '[a-zA-Z0-9-]+'])
     ->group(function () {
         Route::get('/plugins/search', [NexusThemeController::class, 'searchPlugins']);
         Route::post('/plugins/install', [NexusThemeController::class, 'installPlugin']);
