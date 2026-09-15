@@ -1,5 +1,14 @@
-{{-- Include this component inside the server overview view. --}}
-<section class="nexus-theme-root" data-nexus-tools data-server-uuid="{{ $server->uuidShort ?? $server->uuid }}">
+{{-- Include this component inside the server overview view or shared panel wrapper. --}}
+@php
+    $nexusServerIdentifier = '';
+    if (isset($server)) {
+        $nexusServerIdentifier = is_object($server)
+            ? ($server->uuidShort ?? $server->uuid ?? '')
+            : (string) $server;
+    }
+    $nexusServerIdentifier = $nexusServerIdentifier ?: (string) request()->segment(2);
+@endphp
+<section class="nexus-theme-root" data-nexus-tools data-server-uuid="{{ $nexusServerIdentifier }}">
     <div class="nexus-hero">
         <div>
             <p class="nexus-eyebrow">NexusTheme / server control plane</p>

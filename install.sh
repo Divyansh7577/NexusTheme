@@ -74,6 +74,7 @@ backup_if_present "app/Providers/RouteServiceProvider.php"
 backup_if_present "app/PluginController.php"
 backup_if_present "resources/views/server/console.blade.php"
 backup_if_present "resources/views/server/index.blade.php"
+backup_if_present "resources/views/layouts/nexus-theme-server-mount.blade.php"
 
 log "Downloading NexusTheme"
 curl --fail --silent --show-error --location "$REPO_ARCHIVE" -o "$WORK_DIR/nexustheme.tar.gz"
@@ -95,6 +96,7 @@ install -d "$PANEL_DIR/routes"
 cp -a "$SOURCE_DIR/public/themes/nexustheme/." "$PANEL_DIR/public/themes/nexustheme/"
 cp -f "$SOURCE_DIR/resources/views/components/nexus-server-tools.blade.php" "$PANEL_DIR/resources/views/components/"
 cp -f "$SOURCE_DIR/resources/views/layouts/nexus-theme-inject.blade.php" "$PANEL_DIR/resources/views/layouts/"
+cp -f "$SOURCE_DIR/resources/views/layouts/nexus-theme-server-mount.blade.php" "$PANEL_DIR/resources/views/layouts/"
 cp -f "$SOURCE_DIR/app/Contracts/NexusServerGateway.php" "$PANEL_DIR/app/Contracts/"
 cp -f "$SOURCE_DIR/app/Http/Controllers/NexusThemeController.php" "$PANEL_DIR/app/Http/Controllers/"
 cp -f "$SOURCE_DIR/app/Providers/NexusThemeServiceProvider.php" "$PANEL_DIR/app/Providers/"
@@ -157,6 +159,18 @@ elif operation == "server":
         else:
             raise SystemExit("No Blade content section found")
 
+elif operation == "server-mount":
+    marker = "@include('layouts.nexus-theme-server-mount')"
+    if marker not in text:
+        if "@section('scripts')" in text:
+            text = text.replace("@section('scripts')", marker + "\n        @section('scripts')", 1)
+        elif "</body>" in text:
+            text = text.replace("</body>", f"    {marker}\n</body>", 1)
+        elif "@yield('content')" in text:
+            text = text.replace("@yield('content')", "@yield('content')\n    " + marker, 1)
+        else:
+            raise SystemExit("No body content anchor found")
+
 else:
     raise SystemExit(f"Unknown patch operation: {operation}")
 
@@ -212,6 +226,8 @@ find_view() {
 if MASTER_VIEW="$(find_view)"; then
     log "Injecting NexusTheme assets into $MASTER_VIEW"
     patch_file "$MASTER_VIEW" master
+    log "Mounting Nexus server controls from the shared panel wrapper"
+    patch_file "$MASTER_VIEW" server-mount
 else
     warn "Could not find the panel master Blade view. Add @include('layouts.nexus-theme-inject') before </head> manually."
 fi
@@ -236,10 +252,7 @@ if [[ -n "$SERVER_VIEW" ]]; then
     log "Adding Nexus server controls to $SERVER_VIEW"
     patch_file "$SERVER_VIEW" server
 else
-    warn "Could not find a server Blade view. Core theme assets and API are installed; add this manually to the server view when available:"
-    cat >&2 <<'NEXUS_MANUAL_SERVER_VIEW'
-    @include('components.nexus-server-tools', ['server' => $server])
-NEXUS_MANUAL_SERVER_VIEW
+    log "No server Blade view found; the shared wrapper mount covers React-based panels automatically"
 fi
 
 log "Applying panel ownership and permissions"
@@ -248,6 +261,7 @@ chmod -R u=rwX,go=rX "$PANEL_DIR/public/themes/nexustheme"
 chown "$PANEL_OWNER" \
     "$PANEL_DIR/resources/views/components/nexus-server-tools.blade.php" \
     "$PANEL_DIR/resources/views/layouts/nexus-theme-inject.blade.php" \
+    "$PANEL_DIR/resources/views/layouts/nexus-theme-server-mount.blade.php" \
     "$PANEL_DIR/app/Contracts/NexusServerGateway.php" \
     "$PANEL_DIR/app/Http/Controllers/NexusThemeController.php" \
     "$PANEL_DIR/app/Providers/NexusThemeServiceProvider.php" \
@@ -277,4 +291,4 @@ printf 'Panel:  %s\n' "$PANEL_DIR"
 printf '\nNext steps:\n'
 printf '1. Add provider values to %s/.env if you use CurseForge, Fabric, Forge, or Pufferfish.\n' "$PANEL_DIR"
 printf '2. Sign in to a server page and hard-refresh your browser.\n'
-printf '3. If the installer warned about a Blade view, follow the manual include command above.\n'
+printf '3. Server controls are mounted automatically from the shared panel wrapper.\n'

@@ -10,8 +10,8 @@ application files.
 The installer is designed for an Ubuntu VM with an existing Pterodactyl panel.
 It creates a timestamped backup, downloads the current `main` branch, installs
 the theme files, registers the service provider and authenticated routes,
-injects the Blade assets, refreshes Composer/Laravel caches, and prints any
-manual step it could not safely detect.
+injects the Blade assets and server controls from the shared panel wrapper,
+then refreshes Composer/Laravel caches.
 
 Run these commands as a sudo-capable user:
 
@@ -96,6 +96,8 @@ sudo cp resources/views/components/nexus-server-tools.blade.php \
   "$PANEL_DIR/resources/views/components/"
 sudo cp resources/views/layouts/nexus-theme-inject.blade.php \
   "$PANEL_DIR/resources/views/layouts/"
+sudo cp resources/views/layouts/nexus-theme-server-mount.blade.php \
+  "$PANEL_DIR/resources/views/layouts/"
 sudo cp app/Contracts/NexusServerGateway.php \
   "$PANEL_DIR/app/Contracts/"
 sudo cp app/Http/Controllers/NexusThemeController.php \
@@ -179,14 +181,13 @@ Find the Blade view used for the server page. If your panel has
 @include('components.nexus-server-tools', ['server' => $server])
 ```
 
-If your Pterodactyl version uses a React-only server view, keep the theme
-assets and API installation, then add the component include to the Blade
-wrapper used by your server route. The installer prints this manual step when
-it cannot identify the correct view automatically.
+If your Pterodactyl version uses a React-only server view, the installer
+automatically mounts the component beside Pterodactyl's React root whenever
+the request is under `/server/<server-id>`. It does not modify Pterodactyl's
+React source.
 
-The installer continues successfully when no server Blade view is found. This
-is normal for React-only panel versions; set `NEXUS_SERVER_VIEW` to a relative
-Blade path if your server template has a custom location:
+For older panels with a custom Blade server template, set `NEXUS_SERVER_VIEW`
+to a relative Blade path:
 
 ```bash
 sudo NEXUS_SERVER_VIEW=resources/views/custom/server.blade.php \
