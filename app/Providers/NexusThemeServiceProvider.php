@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace Pterodactyl\Providers;
 
-use App\Contracts\NexusServerGateway;
-use App\Services\NexusTheme\PterodactylWingsGateway;
+use Pterodactyl\Contracts\NexusServerGateway;
+use Pterodactyl\Services\NexusTheme\PterodactylWingsGateway;
 use Illuminate\Support\ServiceProvider;
 
 class NexusThemeServiceProvider extends ServiceProvider

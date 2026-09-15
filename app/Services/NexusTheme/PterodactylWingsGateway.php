@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\NexusTheme;
+namespace Pterodactyl\Services\NexusTheme;
 
-use App\Contracts\NexusServerGateway;
+use Pterodactyl\Contracts\NexusServerGateway;
 use Pterodactyl\Models\Server;
 use Pterodactyl\Repositories\Wings\DaemonFileRepository;
 

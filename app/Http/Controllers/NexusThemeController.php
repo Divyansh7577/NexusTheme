@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Pterodactyl\Http\Controllers;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Contracts\NexusServerGateway;
+use Pterodactyl\Contracts\NexusServerGateway;
 use Pterodactyl\Http\Controllers\Controller;
 use Pterodactyl\Models\Server;
 use Throwable;

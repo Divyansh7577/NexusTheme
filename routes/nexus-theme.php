@@ -9,14 +9,20 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use Pterodactyl\Http\Middleware\RequireTwoFactorAuthentication;
-use Pterodactyl\Models\Server;
-use App\Http\Controllers\NexusThemeController;
+use Pterodactyl\Http\Controllers\NexusThemeController;
+use Pterodactyl\Http\Middleware\Activity\ServerSubject;
+use Pterodactyl\Http\Middleware\Api\Client\Server\AuthenticateServerAccess;
+use Pterodactyl\Http\Middleware\Api\Client\Server\ResourceBelongsToServer;
 
-Route::model('server', Server::class);
-
-Route::middleware(['auth', RequireTwoFactorAuthentication::class])
-    ->prefix('api/client/servers/{server}/nexus')
+Route::middleware([
+    'client-api',
+    'throttle:api.client',
+    ServerSubject::class,
+    AuthenticateServerAccess::class,
+    ResourceBelongsToServer::class,
+])
+    ->prefix('/api/client/servers/{server}/nexus')
+    ->scopeBindings()
     ->where('server', '[a-zA-Z0-9-]+')
     ->group(function () {
         Route::get('/plugins/search', [NexusThemeController::class, 'searchPlugins']);
