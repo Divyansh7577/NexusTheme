@@ -237,7 +237,9 @@ if [[ -n "$SERVER_VIEW" ]]; then
     patch_file "$SERVER_VIEW" server
 else
     warn "Could not find a server Blade view. Core theme assets and API are installed; add this manually to the server view when available:"
-    printf '%s\n' '    @include('\''components.nexus-server-tools'\'', ['\''server'\'' => $server])'
+    cat >&2 <<'NEXUS_MANUAL_SERVER_VIEW'
+    @include('components.nexus-server-tools', ['server' => $server])
+NEXUS_MANUAL_SERVER_VIEW
 fi
 
 log "Applying panel ownership and permissions"
