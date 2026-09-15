@@ -184,6 +184,15 @@ assets and API installation, then add the component include to the Blade
 wrapper used by your server route. The installer prints this manual step when
 it cannot identify the correct view automatically.
 
+The installer continues successfully when no server Blade view is found. This
+is normal for React-only panel versions; set `NEXUS_SERVER_VIEW` to a relative
+Blade path if your server template has a custom location:
+
+```bash
+sudo NEXUS_SERVER_VIEW=resources/views/custom/server.blade.php \
+  bash /tmp/nexus-theme-install.sh
+```
+
 ### 9. Configure optional providers
 
 Back up and open the environment file:
